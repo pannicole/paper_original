@@ -47,18 +47,19 @@ function makeEyesAndBrows(mid, eyesY, width, eyeRadius){
   rightEye.strokeColor = 'black';
 
   var browLength = (Math.random() * eyeRadius * 4) + eyeRadius
+  var browHeight = (Math.random() * 20) + 5
 
   var leftBrow = new Path()
   leftBrow.strokeColor = 'black';
-  leftBrow.add(new Point(mid-eyesX - browLength, eyesY - 15))
-  leftBrow.add(new Point(mid-eyesX, eyesY - 20))
-  leftBrow.add(new Point(mid-eyesX + browLength, eyesY - 20))
+  leftBrow.add(new Point(mid-eyesX - browLength, eyesY - browHeight + 3))
+  leftBrow.add(new Point(mid-eyesX, eyesY - browHeight))
+  leftBrow.add(new Point(mid-eyesX + browLength, eyesY - browHeight))
 
   var rightBrow = new Path()
   rightBrow.strokeColor = 'black';
-  rightBrow.add(new Point(mid + eyesX - browLength, eyesY - 20))
-  rightBrow.add(new Point(mid + eyesX, eyesY - 20))
-  rightBrow.add(new Point(mid + eyesX + browLength, eyesY - 15))
+  rightBrow.add(new Point(mid + eyesX - browLength, eyesY - browHeight))
+  rightBrow.add(new Point(mid + eyesX, eyesY - browHeight))
+  rightBrow.add(new Point(mid + eyesX + browLength, eyesY - browHeight + 3))
 }
 
 //-----------NOSE----------
@@ -81,15 +82,19 @@ function makeMouth(mid, mouthWidth, mouthY){
   mouth.smooth();
 }
 
-function onKeyDown(event){
-  project.activeLayer.removeChildren()
-  var eyesY = topY + midY * (.5 + Math.random())
-  var noseY = Math.floor(Math.random() * (bottomY - eyesY + 1) + eyesY)
-  var noseX = (Math.random() * 10) + 2
-  var mouthY = Math.floor(Math.random() * (bottomY - noseY + 1) + noseY)
-  var mouthWidth = (Math.random() * 10) + 5
-  makeFace(vector, center)
-  makeEyesAndBrows(mid, eyesY, width, 3)
-  makeNose(mid, noseX, noseY)
-  makeMouth(mid, mouthWidth, mouthY)
+function onFrame(event){
+  if(event.count % 30 === 0 ) {
+    project.activeLayer.removeChildren()
+    var eyesY = topY + midY * (.5 + Math.random())
+    var noseY = Math.floor(Math.random() * (bottomY -10 - eyesY + 1) + eyesY)
+    var noseX = (Math.random() * 10) + 2
+    var mouthY = bottomY - Math.floor(Math.random() * (bottomY - noseY))
+    var mouthWidth = (Math.random() * 15) + 5
+
+    var eyeRadius = Math.random() * 5
+    makeFace(vector, center)
+    makeEyesAndBrows(mid, eyesY, width, eyeRadius)
+    makeNose(mid, noseX, noseY)
+    makeMouth(mid, mouthWidth, mouthY)
+  }
 }
